@@ -3,38 +3,57 @@ import styled from "styled-components"
 
 const PatientScore = () => {
     return (
+<> 
 <div>
-<Form >
+Blood Glucose Targets During Prgenancy
+<Table className="BGVtarget">
+<label>Normal</label>
+<label>Target</label>
+<label>Target on Insuline</label>
+<label className="BbreakFast">Before Breakfast</label>
+<label className="1hrAfterMeal"> 1hr after meals</label>
+</Table>
+</div>
+
+<div>
+<Form className="mainForm">
     <label className="Date">
         Date
         <input />
         </label>
         <label className="BGV">
-            Blood Glucose values 
+            Blood Glucose vales 
+            <label>Before Breakfast</label>
             <input  type="number" />
+            <label>1hr after Breakfast</label>
             <input  type="number" />
+            <label>1hr after Lunch </label>
             <input  type="number" />
-            <input  type="number" />
-        </label>
-        <label className="InsulineDose">
-            Insuline Dose
-            <label>
-                Before Breakfast
-            <input  type="number" />
-            </label> 
-            <label>
-                1 hour after Breakfast
-            <input  type="number" />
-            </label>
-            <input  type="number" />
+            <label>1hr after Supper</label>
             <input  type="number" />
         </label>
-        <label className="InsulineDose">
+        
+        <label className="insulineDose">Insuline Dose 
+            <lable>Before Breakfast</lable>
+            <input  type="number" />
+            <label>Before Lunch</label>
+            <input  type="number" />
+            <label>Before Supper</label>
+            <input  type="number" />
+            <label>Evening </label>
+            <input  type="number" />
+        </label>
+        
+        <label className="Comments">
             Comments
             <textarea rows ="5"/>
         </label>
+        <input type="submit" value="Submit Scores" onSubmit={(e) =>{
+            PatientScore
+        }} />
 </Form>
 </div>
+</>
     )
 }
 
@@ -54,4 +73,6 @@ label{
     font-size: 32px;
     margin-top: 8px;
 }
+`
+const Table = styled.table`
 `

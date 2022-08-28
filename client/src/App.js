@@ -35,8 +35,6 @@ return (
 );
 }
 
-
-
 export default App;
 
 const ContentWrapper = styled.div`

@@ -6,6 +6,7 @@ return (
     <StyledHeader>
         <Wrapper>
         <H1>Gestational Diabetes Care Diary</H1>
+        <Link to="/"> Sign In </Link>
         <Link to= '/PatientScore'> Patient Score </Link>
         <Link to= '/PrescirptionChart'> Prescription </Link>
         </Wrapper>
