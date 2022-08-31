@@ -2,9 +2,10 @@
 
 const express = require("express");
 const morgan = require("morgan");
-const { patientDetails } = require("./addPatient");
-
-const PORT = 4000;
+const { patientDetail } = require("./addPatient");
+const { createUser } = require("./addPatient")
+const { confirmUser } = require("./addPatient")
+const PORT = 8000;
 
 express()
   .use(function (req, res, next) {
@@ -25,5 +26,7 @@ express()
   .use("/", express.static(__dirname + "/"))
 
   // REST endpoints?
-  .post("api/patientDetails", patientDetail )
+  .post("/api/patientDetails", patientDetail )
+  .post("/create-user", createUser)
+  .get("/api/confirm-user", confirmUser)
   .listen(PORT, () => console.info(`Listening on port ${PORT}`));

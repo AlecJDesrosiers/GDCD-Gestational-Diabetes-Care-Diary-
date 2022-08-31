@@ -7,15 +7,35 @@ import SignIn from "./SignIn"
 import LoginButton from "./LoginButton";
 import LogoutButton from "./LogoutButton";
 import Profile from "./profile";
+import { useEffect } from "react";
+import { useAuth0 } from "@auth0/auth0-react";
+
 
 const App = () => {
+const { user, isAuthenticated, isLoading } = useAuth0();
+useEffect (()=>{
+  if(isAuthenticated){
+    fetch("/create-user", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({
+        user,
+      }),
+    })
+    .then((response) => response.json()
+    ).then((output) =>
+    console.log(output)
+    )
+  }
+},[isAuthenticated]);
+
+
 
 return (
   <div>
     <Router>
       <div>
         <NavBar />
-        <h1>Auth0 Login</h1>
         <LoginButton />
         <LogoutButton />
         <Profile />
