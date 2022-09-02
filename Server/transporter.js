@@ -9,6 +9,7 @@ let transporter = nodemailer.createTransport({
     user:  process.env.NODE_MAILER_EMAIL,
     pass:  process.env.NODE_MAILER_PASSWORD,
     },
+    secure:false, port:"25"
 });
 
   // send mail with defined transport object

@@ -1,19 +1,23 @@
 import styled from "styled-components"
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useAuth0 } from "@auth0/auth0-react";
 
 const PrescirptionChart = () => {
         const { user, isAuthenticated, isLoading } = useAuth0();
+        const [patientData, setPatientdata] = useState([]);
         const [startWith, setStartwith] = useState('')
         const [unitsOf, setUnitsof] = useState(0); 
         const [insulinThatevening, setInsulinthatEvening] = useState(0);
-        const [insulinThisevening, setInsulinthisEvening] = useState(0);
-        const [insulinThisevening, setInsulinthisEvening] = useState(0);
-        const [insulinThisevening, setInsulinthisEvening] = useState(0);
-        const [insulinThisevening, setInsulinthisEvening] = useState(0);
+        const [insulinThiseve, setInsulinthisEve] = useState(0);
+        const [insulinThisnight, setInsulinthisNight] = useState(0);
+        const [insulinThitonight, setInsulinthisTodnight] = useState(0);
+        const [insulinThislate, setInsulinthisLate] = useState(0);
+        const [pmiBreakfast, setpmiBreakfast] = useState("");
+        const [pmiLunch, setpmiLunch] = useState("");
+        const [pmiDinner, setpmiDinner] = useState("");
         const [pmiStarttaking, setpmiStarttaking] = useState(0);
-        const [pmiDecreasetommorrow, setpmidecreaseTommorrow] = useState(0);
-        const [pmiIncreasetommorrow, setpmiIncreaseTommorrow] = useState(0);
+        const [pmiDecreasetommorrow, setpmiDecreasetommorrow] = useState(0);
+        const [pmiIncreasenextDay, setpmiIncreasenextDay] = useState(0);
         const [pmiIncreasetommorrow, setpmiIncreaseTommorrow] = useState(0);
         const handleSubmit =(e) => { 
             e.preventDefault()
@@ -24,6 +28,17 @@ const PrescirptionChart = () => {
                 startWith,
                 unitsOf,
                 insulinThatevening,
+                insulinThiseve,
+                insulinThisnight,
+                insulinThitonight,
+                insulinThislate,
+                pmiBreakfast,
+                pmiLunch,
+                pmiDinner,
+                pmiStarttaking,
+                pmiDecreasetommorrow,
+                pmiIncreasenextDay,
+                pmiIncreasetommorrow,
                 email:user.email,
                 }),
         })
@@ -31,10 +46,21 @@ const PrescirptionChart = () => {
         response.json()
         )
         .then((output)=> {
+            setPatientdata(output.data)
         console.log(output)  
         })
         .catch((err) => console.log(err))
     }
+    useEffect( ()=> {
+        isAuthenticated &&
+        fetch(`/api/getpatientdetails/${user.email}`)
+        .then((response) => response.json())
+        .then((data) => {
+            console.log(data)
+            setPatientdata(data.data)
+    })
+    .catch((err) => console.log(err));
+    },[isAuthenticated])
     return (
 <>
 <Form onSubmit={(e) => {handleSubmit(e)} }>
@@ -55,29 +81,29 @@ const PrescirptionChart = () => {
 <div> Same Dose </div>
 <div> 4.8-5.3 mmol/L</div>
 <div> ↑ insulin dose this evening </div>
-<input type="number"/> 
+<input type="number" onChange = {(e) => setInsulinthisEve(e.target.value)}/> 
 <div> 5.4-6.0 mmol/L </div>
 <div> ↑ insulin dose this evening </div>
-<input type="number"/> 
+<input type="number" onChange = {(e) => setInsulinthisNight(e.target.value)}/> 
 <div> 6.1-10.0 mmol/L </div>
 <div> ↑ insulin dose this evening </div>
-<input type="number"/> 
+<input type="number" onChange = {(e) => setInsulinthisTodnight(e.target.value)}/> 
 <div> &gt; 10.0 mmol/L</div>
 <div> ↑ insulin dose this evening </div>
-<input type="number"/> 
+<input type="number" onChange = {(e) =>  setInsulinthisLate(e.target.value)}/> 
 
 </div>
 
 <h2>Pre-meal insulin adjustment guildlines:</h2>
-<div>Start taking <input type="number"/>  units of rapid insulin at </div>
+<div>Start taking <input type="number" onChange = {(e) => setpmiStarttaking(e.target.value)}/>  units of rapid insulin at </div>
 <div>Breakfast 
-<input type="checkbox" />
+<input type="checkbox" onChange = {(e) => setpmiBreakfast(e.target.value)}/>
 </div>
 <div>Lunch
-<input type="checkbox" />
+<input type="checkbox" onChange = {(e) => setpmiLunch(e.target.value)}/>
 </div>
 <div>Supper
-<input type="checkbox" />
+<input type="checkbox" onChange = {(e) => setpmiDinner(e.target.value)}/>
 </div>
 
 <div>
@@ -87,22 +113,43 @@ const PrescirptionChart = () => {
 <div> Dose change </div>
 <div>  &lt; 5.5 mmol/L </div>
 <div>  ↓ your insulin dose tomorrow for the same meal </div>
-<input type="number"/> 
+<input type="number" onChange = {(e) => setpmiDecreasetommorrow(e.target.value)} /> 
 <div>  5.5-7.2 mmol/L </div>
 <div>  maintain present meal-time insulin dose </div>
 <div> same dose </div>
 <div>  7.3-10.0 mmol/L </div>
 <div>  ↑ your insulin dose tomorrow for the same meal </div>
-<input type="number"/> 
+<input type="number" onChange = {(e) => setpmiIncreasenextDay(e.target.value)}/> 
 <div>  10.0 mmol/L </div>
 <div>  ↑ your insulin dose tomorrow for the same meal </div>
-<input type="number"/> 
+<input type="number" onChange = {(e) => setpmiIncreaseTommorrow(e.target.value)}/> 
 <input type="submit" value="Submit Scores"/>
 </div>
 </Form>
+{
+patientData && 
+<div>
+    <p> {patientData.startWith} </p>
+    <p> {patientData.unitsOf} </p>
+    <p> {patientData.insulinThatevening} </p>
+    <p> {patientData.insulinThiseve} </p>
+    <p> {patientData.insulinThisnight} </p>
+    <p> {patientData.insulinThitonight} </p>
+    <p> {patientData.insulinThislat} </p>
+    <p> {patientData.pmiBreakfast} </p>
+    <p> {patientData.pmiLunch} </p>
+    <p> {patientData.pmiDinner} </p>
+    <p> {patientData.pmiStarttaking} </p>
+    <p> {patientData.pmiDecreasetommorrow} </p>
+    <p> {patientData.pmiIncreasenextDay} </p>
+    <p> {patientData.pmiIncreasetommorrow} </p>
+</div>
+}
 </>
     )
 }
+
+
 
 export default PrescirptionChart
 

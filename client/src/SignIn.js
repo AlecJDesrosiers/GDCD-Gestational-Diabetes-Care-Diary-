@@ -2,7 +2,7 @@ import styled from "styled-components"
 
 const SignIn = () => {
     return (
-<H1>Sign in Page </H1>
+<H1>Fancy writing HEre </H1>
     )
 }
 
