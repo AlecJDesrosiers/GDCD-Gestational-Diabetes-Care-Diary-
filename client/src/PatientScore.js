@@ -1,5 +1,5 @@
-import styled from "styled-components"
-import { useContext, useEffect, useState } from "react"
+import styled from "styled-components";
+import { useContext, useEffect, useState } from "react";
 import { useAuth0 } from "@auth0/auth0-react";
 import { Context } from "./Context";
 
@@ -66,10 +66,16 @@ useEffect( ()=> {
 <div>
 Blood Glucose Targets During Prgenancy
 <Table className="BGVtarget">
-<p>Normal</p>
-<p>Target</p>
-<p>Target on Insuline</p>
+<div>Normal</div>
+<div>Target</div>
+<div> &#60;5.3 </div>
+<div>3.8-5.0</div>
+<div>5.0-7.7</div>
+<div>Target on Insuline</div>
+<div>4.2-4.7</div>
 <p className="BbreakFast">Before Breakfast</p>
+<div> &#60;7.8 </div>
+<div>5.5-7.2</div>
 <p className="1hrAfterMeal"> 1hr after meals</p>
 </Table>
 </div>
@@ -78,49 +84,47 @@ Blood Glucose Targets During Prgenancy
 <Form className="mainForm" onSubmit={(e) => {handleSubmit(e)} }>
     <label className="Date">
         Date
-        <input type="date" 
-        value={data.state}
+        <input required type="datetime-local" value={data.state}
         onChange = {(e) => setdateofscores(e.target.value)}/>
         </label>
         <label className="patientmrn"> MRN </label>
-        <input 
-        value={data.state}
+        <input required value={data.state}
         onChange = { (e) =>  setpatientNumber(e.target.value)}/>
         <label className="BGV">
             Blood Glucose values 
             <label>Before Breakfast</label>
-            <input  type="number" 
+            <input  type="number" required max={20} step=".01"
             value={data.state}
             onChange = { (e) => setbgvBeforeBreakfast(e.target.value)} />
             <label>1hr after Breakfast</label>
-            <input  type="number"
+            <input  type="number" required max={20} step=".01"
             value={data.state} 
             onChange = { (e) => setbgvAfterBreakfast(e.target.value)}/>
             <label>1hr after Lunch </label>
-            <input  type="number"
+            <input  type="number" required max={20} step=".01"
             value={data.state} 
             onChange = { (e) => setbgvAfterLunch(e.target.value)}/>
             <label>1hr after Supper</label>
-            <input  type="number"
+            <input  type="number" required max={20} step=".01"
             value={data.state} 
             onChange = { (e) => setbgvAfterSupper(e.target.value)}/>
         </label>
         
         <label className="insulineDose">Insuline Dose 
             <label>Before Breakfast</label>
-            <input  type="number"
+            <input  type="number" required max={20} step=".01"
             value={data.state} 
             onChange = { (e) => setidBeforeBreakfast(e.target.value)}/>
             <label>Before Lunch</label>
-            <input  type="number"
+            <input  type="number" required max={20} step=".01"
             value={data.state} 
             onChange = { (e) => setidBeforeLunch(e.target.value)}/>
             <label>Before Supper</label>
-            <input  type="number"
+            <input  type="number" required max={20} step=".01"
             value={data.state} 
             onChange = { (e) => setidBeforeSupper(e.target.value)}/>
             <label>Evening </label>
-            <input  type="number"
+            <input  type="number" required max={20} step=".01"
             value={data.state} 
             onChange = { (e) => setidEvening(e.target.value)}/>
         </label>
@@ -141,6 +145,7 @@ patientData &&
 <p>{patientData.dateofscores}</p>
 <p>{patientData.patientNumber}</p>
 <p>{patientData.bgvBeforeBreakfast}</p>
+<p>{patientData.bgvAfterBreakfast}</p>
 <p>{patientData.bgvAfterLunch}</p>
 <p>{patientData.bgvAfterSupper}</p>
 <p>{patientData.idBeforeBreakfast}</p>
@@ -150,6 +155,9 @@ patientData &&
 <p>{patientData.comments}</p>
 </div>
 }
+//this will add 2 values together
+<p>{ parseInt( patientData.insulinThatevening) + parseInt(patientData.idBeforeBreakfast)}</p>
+<p>{ parseInt( patientData.insulinThatevening) + parseInt(patientData.idBeforeBreakfast)} </p>
 </>
     )
 }
@@ -169,14 +177,18 @@ label{
 }
 `
 const Table = styled.div`
-border: 1pt red solid;
+/* border: 1pt red solid;
 display: inline-grid;
-/* grid-column-start: 50px [line1]  50px [line2] auto;
-grid-column-end: 50px [line1]  50px [line2] auto;
-grid-row-start: 50px [line1]  50px [line2] auto;
-grid-row-end: 50px [line1] 50px [line2] auto; */
 grid-template-areas: 
     "header header header"
     "main main main"
-    "footer footer footer";
+    "footer footer footer"; */
+display: inline-grid;
+grid-template-columns: 200px 200px 200px;
+grid-template-rows: auto;
+grid-row-gap: 10px;
+justify-items: stretch;
+align-items: center;
+align-content: space-evenly;
+padding: 0px 10px 10px 100px;
 `

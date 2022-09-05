@@ -9,7 +9,6 @@ let transporter = nodemailer.createTransport({
     user:  process.env.NODE_MAILER_EMAIL,
     pass:  process.env.NODE_MAILER_PASSWORD,
     },
-    secure:false, port:"25"
 });
 
   // send mail with defined transport object
@@ -32,7 +31,8 @@ transporter.sendMail({
         Before Lunch: <p>${patientScore.idBeforeLunch}</p>
         Before Supper: <p>${patientScore.idBeforeSupper}</p>
         Evening: <p>${patientScore.idEvening}</p>
-        Comments: <p>${patientScore.comments}</p>`, // html body
+        Comments: <p>${patientScore.comments}</p>`
+        , // html body
 }, (err, info) => {if (err){console.log(err);return}console.log(info)}
 );
 };

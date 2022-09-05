@@ -1,4 +1,4 @@
-import styled from "styled-components"
+import styled from "styled-components";
 import { useState, useEffect } from "react";
 import { useAuth0 } from "@auth0/auth0-react";
 
@@ -21,7 +21,7 @@ const PrescirptionChart = () => {
         const [pmiIncreasetommorrow, setpmiIncreaseTommorrow] = useState(0);
         const handleSubmit =(e) => { 
             e.preventDefault()
-            fetch("/api/patientDetails",{
+            fetch("/api/getprescriptionDetails",{
             method: "POST",
             headers: { "Content-Type": "application/json" },
             body: JSON.stringify({
@@ -53,7 +53,7 @@ const PrescirptionChart = () => {
     }
     useEffect( ()=> {
         isAuthenticated &&
-        fetch(`/api/getpatientdetails/${user.email}`)
+        fetch(`/api/getpatientDetails/${user.email}`)
         .then((response) => response.json())
         .then((data) => {
             console.log(data)
@@ -62,73 +62,90 @@ const PrescirptionChart = () => {
     .catch((err) => console.log(err));
     },[isAuthenticated])
     return (
-<>
-<Form onSubmit={(e) => {handleSubmit(e)} }>
-<h1></h1>
-<div>Evening insulin dose adjustment</div>
-<div>Start with <input type="number" onChange = {(e) => setStartwith(e.target.value)}/>  untis of <input type="number" onChange = {(e) => setUnitsof(e.target.value)}/>  insulin in the evening.</div>
-<h2>You will need to adjust your evning insulin dose based on your moring blood glucose level</h2>
 
-<div>
+<>
+<styledDiv>
+<Form onSubmit={(e) => {handleSubmit(e)} }>
+
+<StyledStart>
+<h1>Evening insulin dose adjustment</h1>
+<div>Start with <input type="number"  onChange = {(e) => setStartwith(e.target.value)}/>  untis of <input type="number" required max={20} step=".01" onChange = {(e) => setUnitsof(e.target.value)}/>  insulin in the evening.</div>
+<h2>You will need to adjust your evning insulin dose based on your moring blood glucose level</h2>
+</StyledStart>
+
+<Styledadjust>
 <div>If your blood glucose level in the moring is: </div>
 <div> Action </div>
 <div> Dose change </div>
 <div>  &lt; 4.3 mmol/L </div>
 <div>  ↓ insulin dose that evening </div>
-<input type="number" onChange = {(e) => setInsulinthatEvening(e.target.value)}/>  
+<input type="number" required max={20} step=".01"
+onChange = {(e) => setInsulinthatEvening(e.target.value)}/>  
 <div> 4.3-4.7 mmol/L </div>
 <div> maintain present insulin dose </div>
 <div> Same Dose </div>
 <div> 4.8-5.3 mmol/L</div>
 <div> ↑ insulin dose this evening </div>
-<input type="number" onChange = {(e) => setInsulinthisEve(e.target.value)}/> 
+<input type="number" required max={20} step=".01"
+onChange = {(e) => setInsulinthisEve(e.target.value)}/> 
 <div> 5.4-6.0 mmol/L </div>
 <div> ↑ insulin dose this evening </div>
-<input type="number" onChange = {(e) => setInsulinthisNight(e.target.value)}/> 
+<input type="number" required max={20} step=".01"
+onChange = {(e) => setInsulinthisNight(e.target.value)}/> 
 <div> 6.1-10.0 mmol/L </div>
 <div> ↑ insulin dose this evening </div>
-<input type="number" onChange = {(e) => setInsulinthisTodnight(e.target.value)}/> 
+<input type="number" required max={20} step=".01"
+onChange = {(e) => setInsulinthisTodnight(e.target.value)}/> 
 <div> &gt; 10.0 mmol/L</div>
 <div> ↑ insulin dose this evening </div>
-<input type="number" onChange = {(e) =>  setInsulinthisLate(e.target.value)}/> 
+<input type="number" required max={20} step=".01"
+onChange = {(e) =>  setInsulinthisLate(e.target.value)}/> 
+</Styledadjust>
 
-</div>
-
-<h2>Pre-meal insulin adjustment guildlines:</h2>
-<div>Start taking <input type="number" onChange = {(e) => setpmiStarttaking(e.target.value)}/>  units of rapid insulin at </div>
+<Styledpremeal>
+<h3>Pre-meal insulin adjustment guildlines:</h3>
+<div>Start taking <input type="number" required max={20} step=".01" onChange = {(e) => setpmiStarttaking(e.target.value)}/>  units of rapid insulin at </div>
 <div>Breakfast 
-<input type="checkbox" onChange = {(e) => setpmiBreakfast(e.target.value)}/>
+<input type="checkbox" 
+onChange = {(e) => setpmiBreakfast(e.target.value)}/>
 </div>
 <div>Lunch
-<input type="checkbox" onChange = {(e) => setpmiLunch(e.target.value)}/>
+<input type="checkbox" 
+onChange = {(e) => setpmiLunch(e.target.value)}/>
 </div>
 <div>Supper
-<input type="checkbox" onChange = {(e) => setpmiDinner(e.target.value)}/>
+<input type="checkbox" 
+onChange = {(e) => setpmiDinner(e.target.value)}/>
 </div>
+</Styledpremeal>
 
-<div>
-
+<Styledadjustment>
 <div>If your blood glucose level 1 hour after the meal is: </div>
 <div> Action </div>
 <div> Dose change </div>
 <div>  &lt; 5.5 mmol/L </div>
 <div>  ↓ your insulin dose tomorrow for the same meal </div>
-<input type="number" onChange = {(e) => setpmiDecreasetommorrow(e.target.value)} /> 
+<input type="number" required max={20} step=".01"
+onChange = {(e) => setpmiDecreasetommorrow(e.target.value)} /> 
 <div>  5.5-7.2 mmol/L </div>
 <div>  maintain present meal-time insulin dose </div>
 <div> same dose </div>
 <div>  7.3-10.0 mmol/L </div>
 <div>  ↑ your insulin dose tomorrow for the same meal </div>
-<input type="number" onChange = {(e) => setpmiIncreasenextDay(e.target.value)}/> 
+<input type="number" required max={20} step=".01"
+onChange = {(e) => setpmiIncreasenextDay(e.target.value)}/> 
 <div>  10.0 mmol/L </div>
 <div>  ↑ your insulin dose tomorrow for the same meal </div>
-<input type="number" onChange = {(e) => setpmiIncreaseTommorrow(e.target.value)}/> 
+<input type="number" required max={20} step=".01"
+onChange = {(e) => setpmiIncreaseTommorrow(e.target.value)}/> 
 <input type="submit" value="Submit Scores"/>
-</div>
+</Styledadjustment>
+
 </Form>
+
 {
 patientData && 
-<div>
+<PatientData>
     <p> {patientData.startWith} </p>
     <p> {patientData.unitsOf} </p>
     <p> {patientData.insulinThatevening} </p>
@@ -143,8 +160,9 @@ patientData &&
     <p> {patientData.pmiDecreasetommorrow} </p>
     <p> {patientData.pmiIncreasenextDay} </p>
     <p> {patientData.pmiIncreasetommorrow} </p>
-</div>
+</PatientData>
 }
+</styledDiv>
 </>
     )
 }
@@ -154,4 +172,61 @@ patientData &&
 export default PrescirptionChart
 
 const Form = styled.form`
+`
+
+// const StyledDiv = styled.div`
+// background-image: url('../Img/.png');
+// background-repeat: no-repeat;
+// background-position: center; 
+// background-size: cover;
+// min-height: 100%;
+// min-width: 1024px;
+// width: 100%;
+// height: auto;
+// position: fixed;
+// left: 0;
+// `
+
+const StyledStart = styled.div`
+display: inline-flex;
+flex-direction: column;
+align-content: center;
+padding: 10px 380px;
+text-align: center;
+white-space: nowrap;
+`
+
+const Styledadjust = styled.div`
+display: inline-grid;
+grid-template-columns: 200px 200px 200px;
+grid-template-rows: auto;
+grid-row-gap: 10px;
+justify-items: stretch;
+align-items: center;
+align-content: space-evenly;
+padding: 0px 10px 10px 100px;
+
+`
+
+const Styledpremeal = styled.div`
+display: inline-flex;
+flex-direction: column;
+align-content: center;
+padding: 15px 400px;
+text-align: center;
+white-space: nowrap;
+`
+
+const Styledadjustment = styled.div`
+display: inline-grid;
+grid-template-columns: 200px 200px 200px;
+grid-template-rows: auto;
+grid-row-gap: 10px;
+justify-items: stretch;
+align-items: center;
+align-content: space-evenly;
+padding: 0px 10px 10px 100px;
+`
+
+const PatientData = styled.div`
 `

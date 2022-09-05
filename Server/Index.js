@@ -2,7 +2,7 @@
 
 const express = require("express");
 const morgan = require("morgan");
-const { patientDetail,createUser,confirmUser,getpatientdetails } = require("./handler");
+const { patientDetail,createUser,confirmUser,getpatientdetails, prescriptionDetails} = require("./handler");
 const PORT = 8000;
 
 express()
@@ -28,4 +28,5 @@ express()
   .post("/create-user", createUser)
   .get("/api/confirm-user", confirmUser)
   .get("/api/getpatientdetails/:email", getpatientdetails )
+  .post("/api/getprescriptionDetails",  prescriptionDetails)
   .listen(PORT, () => console.info(`Listening on port ${PORT}`));

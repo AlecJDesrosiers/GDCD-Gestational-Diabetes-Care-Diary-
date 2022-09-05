@@ -96,9 +96,43 @@ const getpatientdetails = async(req, res) => {
         res.status(400).json({ status: 400, message: "Could not fetch data." });
 }
 };
+
+//send Prescription info to the server
+const prescriptionDetails = async (req, res) => { 
+    console.log(req.body)
+try{
+    const client = new MongoClient(MONGO_URI, options);
+    await client.connect();
+    const db = client.db('Patients');
+    const existingData = await db.collection("patientDetails").findOne({
+        email:req.body.email
+    });
+    if(existingData){
+        await db.collection('patientDetails').updateOne({
+            email:req.body.email
+        }, {
+            "$set":{...req.body, date: Date()}
+        }
+        )
+        const data = await db.collection("patientDetails").findOne({
+            email:req.body.email
+        });
+        return res.status(201).json({status:201, data, message:"Patient details updated"})
+    }
+    const data = await db.collection("patientDetails").insertOne({
+        date: Date(),
+        ...req.body,
+    });
+    res.status(200).json({ status: 200, data, message:"Success Added patient details"});
+} catch (err) {
+    res.status(400).json({ status: 400, message: "Couldn't add patient detials" });
+}
+};
+
 module.exports = { 
     patientDetail,
     createUser, 
     confirmUser,
     getpatientdetails,
+    prescriptionDetails,
 };
