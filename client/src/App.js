@@ -1,5 +1,5 @@
 import styled from "styled-components";
-import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
+import { BrowserRouter, Routes, Route } from "react-router-dom";
 import NavBar from "./NavBar";
 import PatientScore from "./PatientScore";
 import PrescirptionChart from "./PrescriptionChart"
@@ -13,7 +13,7 @@ import Profile from "./profile";
 const App = () => {
 return (
   <div>
-    <Router>
+    <BrowserRouter>
       <div>
         <NavBar />
         <ContentWrapper>
@@ -27,7 +27,7 @@ return (
           </Routes>
         </ContentWrapper>
       </div>
-    </Router>
+    </BrowserRouter>
   </div>
 );
 }

@@ -83,7 +83,6 @@ try{
 
 // gets the patients data 
 const getpatientdetails = async(req, res) => {
-    console.log(req)
     try{
         const client = new MongoClient(MONGO_URI, options);
         await client.connect();
@@ -91,7 +90,10 @@ const getpatientdetails = async(req, res) => {
         const patientDetails = await db.collection("patientDetails").findOne({
             email:req.params.email
         });
-        res.status(200).json({ status: 200, data:patientDetails, message:"Data fetched"});
+        // if(!patientDetails){ res.status(404).json({ status: 404, message: "Data does not exist" });} 
+        // else {
+            res.status(200).json({ status: 200, data:patientDetails, message:"Data fetched"});
+        // }
     }
     catch (err) {
         res.status(400).json({ status: 400, message: "Could not fetch data." });

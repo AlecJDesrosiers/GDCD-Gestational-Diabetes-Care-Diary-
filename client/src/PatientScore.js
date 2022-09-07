@@ -6,7 +6,7 @@ import { Context } from "./Context";
 
 const PatientScore = () => {
     const data = useContext (Context)
-    console.log(data);
+    // console.log(data);
     const { user, isAuthenticated, isLoading } = useAuth0();
     const [patientData, setPatientdata] = useState([]);
     const [dateofscores, setdateofscores] = useState('')
@@ -22,7 +22,7 @@ const PatientScore = () => {
     const [comments, setComments] = useState('');
     const handleSubmit =(e) => { 
         e.preventDefault()
-        const res = data.state
+        // const res = data.state
         fetch("/api/patientDetails",{
         method: "POST",
         headers: { "Content-Type": "application/json" },
@@ -52,6 +52,7 @@ const PatientScore = () => {
     .catch((err) => console.log(err))
 }
 useEffect( ()=> {
+    console.log("mounted")
     isAuthenticated &&
     fetch(`/api/getpatientdetails/${user.email}`)
     .then((response) => response.json())
@@ -60,7 +61,9 @@ useEffect( ()=> {
         setPatientdata(data.data)
 })
 .catch((err) => console.log(err));
+return () => {console.log("dismount")}
 },[isAuthenticated])
+console.log(patientData)
     return (
 <> 
 {
@@ -71,23 +74,23 @@ patientData &&
 
 <TableColumn>
 
-<sidechart>
+<Sidechart>
 <h3> </h3>
 <div>Before Breakfast</div>
 <div> 1hr after meals</div>
-</sidechart>
+</Sidechart>
 
-<midchart>
+<Midchart>
 <h3>Normal</h3>
 <div>3.8-5.0</div>
 <div> &#60;5.3 </div>
-</midchart>
+</Midchart>
 
-<bottomchart>
+<Bottomchart>
 <h3>Target</h3>
 <div>5.0-7.7</div>
 <div> &#60;7.8 </div>
-</bottomchart>
+</Bottomchart>
 
 <div>
 <h3>Target on Insuline</h3>
@@ -101,16 +104,16 @@ patientData &&
 <div>
 <Form className="mainForm" onSubmit={(e) => {handleSubmit(e)} }>
         
-        <ddate>
+        <Dates>
         <label>
         <Bolddiv>Date</Bolddiv>
         <input required type="datetime-local" value={data.state} onChange = {(e) => setdateofscores(e.target.value)}/>
-        <div>{patientData.dateofscores}</div>
+        {<div>{patientData.dateofscores}</div>}
         </label>
         <label className="patientmrn"> <Bolddiv>MRN</Bolddiv> </label>
         <input required value={data.state} onChange = { (e) =>  setpatientNumber(e.target.value)}/>
-        <div>{patientData.patientNumber}</div>
-        </ddate>
+        <div>{patientData.patientNumber === undefined ? "" : patientData.patientNumber}</div>
+        </Dates>
 
         <Styledlargercontainer>
         {/* first row */}
@@ -175,7 +178,7 @@ patientData &&
         <div>{ parseInt(patientData.startWith) + parseInt(patientData.insulinThitonight) + parseInt(patientData.idEvening)}</div>
         </Styledlargercontainer>
         
-        <styledcomments>
+        <Styledcomments>
         <label className="Comments">
             Comments
             <textarea rows ="5" value={data.state}
@@ -185,7 +188,7 @@ patientData &&
         <label>
         <input type="submit" value="Submit Scores"/>
         </label>
-        </styledcomments>
+        </Styledcomments>
 </Form >
 </div>
 </Styleddiv>
@@ -246,4 +249,14 @@ align-items: center;
 
 const Bolddiv = styled.div`
 font-weight: 700;
+`
+const Sidechart = styled.div`
+`
+const Midchart = styled.div`
+`
+const Bottomchart = styled.div`
+`
+const Dates = styled.div`
+`
+const Styledcomments = styled.div`
 `

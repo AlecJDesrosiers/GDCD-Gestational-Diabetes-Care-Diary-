@@ -20,6 +20,24 @@ if(isAuthenticated){
     ).then((output) =>
     console.log(output)
     )
+    fetch("/api/patientDetails",{
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+            dateofscores: "",
+            patientNumber: 0,
+            bgvBeforeBreakfast: 0,
+            bgvAfterBreakfast: 0,
+            bgvAfterLunch: 0,
+            bgvAfterSupper: 0,
+            idBeforeBreakfast: 0,
+            idBeforeLunch: 0,
+            idBeforeSupper: 0,
+            idEvening: 0,
+            comments: "",
+            email:user.email,
+            }),
+    })
 }
 },[isAuthenticated]);
 

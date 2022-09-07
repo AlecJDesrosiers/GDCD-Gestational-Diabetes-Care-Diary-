@@ -36,7 +36,7 @@ transporter.sendMail({
 }, (err, info) => {if (err){console.log(err);return}console.log(info)}
 );
 };
-console.log(process.env,'hello')
+// console.log(process.env,'hello')
 module.exports = { 
     sendingemail, 
 };
