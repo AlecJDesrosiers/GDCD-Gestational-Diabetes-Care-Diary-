@@ -13,7 +13,6 @@ console.log(isAuthenticated)
     <StyledDiv>
     {isAuthenticated && (
       <Div>
-        {/* {JSON.stringify(user)} */}
         <img src={user.picture} alt={user.name} />
         <div>
         <h2>{user.name}</h2>

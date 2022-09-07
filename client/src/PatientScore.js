@@ -63,101 +63,133 @@ useEffect( ()=> {
 },[isAuthenticated])
     return (
 <> 
-<div>
-Blood Glucose Targets During Prgenancy
+{
+patientData && 
+<Styleddiv>
 <Table className="BGVtarget">
-<div>Normal</div>
-<div>Target</div>
-<div> &#60;5.3 </div>
+<h3>Blood Glucose Targets During Prgenancy</h3>
+
+<TableColumn>
+
+<sidechart>
+<h3> </h3>
+<div>Before Breakfast</div>
+<div> 1hr after meals</div>
+</sidechart>
+
+<midchart>
+<h3>Normal</h3>
 <div>3.8-5.0</div>
+<div> &#60;5.3 </div>
+</midchart>
+
+<bottomchart>
+<h3>Target</h3>
 <div>5.0-7.7</div>
-<div>Target on Insuline</div>
-<div>4.2-4.7</div>
-<p className="BbreakFast">Before Breakfast</p>
 <div> &#60;7.8 </div>
+</bottomchart>
+
+<div>
+<h3>Target on Insuline</h3>
+<div>4.2-4.7</div>
 <div>5.5-7.2</div>
-<p className="1hrAfterMeal"> 1hr after meals</p>
-</Table>
 </div>
+</TableColumn>
+</Table>
+
 
 <div>
 <Form className="mainForm" onSubmit={(e) => {handleSubmit(e)} }>
-    <label className="Date">
-        Date
-        <input required type="datetime-local" value={data.state}
-        onChange = {(e) => setdateofscores(e.target.value)}/>
-        </label>
-        <label className="patientmrn"> MRN </label>
-        <input required value={data.state}
-        onChange = { (e) =>  setpatientNumber(e.target.value)}/>
-        <label className="BGV">
-            Blood Glucose values 
-            <label>Before Breakfast</label>
-            <input  type="number" required max={20} step=".01"
-            value={data.state}
-            onChange = { (e) => setbgvBeforeBreakfast(e.target.value)} />
-            <label>1hr after Breakfast</label>
-            <input  type="number" required max={20} step=".01"
-            value={data.state} 
-            onChange = { (e) => setbgvAfterBreakfast(e.target.value)}/>
-            <label>1hr after Lunch </label>
-            <input  type="number" required max={20} step=".01"
-            value={data.state} 
-            onChange = { (e) => setbgvAfterLunch(e.target.value)}/>
-            <label>1hr after Supper</label>
-            <input  type="number" required max={20} step=".01"
-            value={data.state} 
-            onChange = { (e) => setbgvAfterSupper(e.target.value)}/>
-        </label>
         
-        <label className="insulineDose">Insuline Dose 
-            <label>Before Breakfast</label>
-            <input  type="number" required max={20} step=".01"
-            value={data.state} 
-            onChange = { (e) => setidBeforeBreakfast(e.target.value)}/>
-            <label>Before Lunch</label>
-            <input  type="number" required max={20} step=".01"
-            value={data.state} 
-            onChange = { (e) => setidBeforeLunch(e.target.value)}/>
-            <label>Before Supper</label>
-            <input  type="number" required max={20} step=".01"
-            value={data.state} 
-            onChange = { (e) => setidBeforeSupper(e.target.value)}/>
-            <label>Evening </label>
-            <input  type="number" required max={20} step=".01"
-            value={data.state} 
-            onChange = { (e) => setidEvening(e.target.value)}/>
+        <ddate>
+        <label>
+        <Bolddiv>Date</Bolddiv>
+        <input required type="datetime-local" value={data.state} onChange = {(e) => setdateofscores(e.target.value)}/>
+        <div>{patientData.dateofscores}</div>
         </label>
+        <label className="patientmrn"> <Bolddiv>MRN</Bolddiv> </label>
+        <input required value={data.state} onChange = { (e) =>  setpatientNumber(e.target.value)}/>
+        <div>{patientData.patientNumber}</div>
+        </ddate>
+
+        <Styledlargercontainer>
+        {/* first row */}
+        <h5>When to take your Blood Glucose values scores</h5>
+        <h5>Blood Glucose values </h5>
+        <h5>Preivous Blood Glucose values</h5>
+        <h5>What were your Insulin Dose values?</h5>
+        <h5>Insuline Dose </h5>
+        <h5>Preivous Insuline Dose </h5>
+        <h5>Insulin dosses to take </h5>
+
+        {/* second row */}
+        <label>Before Breakfast</label>
+        <input  type="number" required max={20} step=".01"
+        value={data.state}
+        onChange = { (e) => setbgvBeforeBreakfast(e.target.value)} />
+        <div>{patientData.bgvBeforeBreakfast}</div>
+        <label>Before Breakfast</label>
+        <input  type="number" required max={20} step=".01"
+        value={data.state} 
+        onChange = { (e) => setidBeforeBreakfast(e.target.value)}/>
+        <div>{patientData.idBeforeBreakfast}</div>
+        <div>{parseInt(patientData.startWith) + parseInt(patientData.insulinThatevening) + parseInt(patientData.idBeforeBreakfast)}</div>
         
+        {/* Third row */}
+        <label>1hr after Breakfast</label>
+        <input  type="number" required max={20} step=".01"
+        value={data.state} 
+        onChange = { (e) => setbgvAfterBreakfast(e.target.value)}/>
+        <div>{patientData.bgvAfterBreakfast}</div>
+        <label>Before Lunch</label>
+        <input  type="number" required max={20} step=".01"
+        value={data.state} 
+        onChange = { (e) => setidBeforeLunch(e.target.value)}/>
+        <div>{patientData.idBeforeLunch}</div>
+        <div>{ parseInt(patientData.startWith) + parseInt(patientData.insulinThiseve) + parseInt(patientData.idBeforeLunch)} </div>
+
+        {/* fourth row */}
+        <label>1hr after Lunch </label>
+        <input  type="number" required max={20} step=".01"
+        value={data.state} 
+        onChange = { (e) => setbgvAfterLunch(e.target.value)}/>
+        <div>{patientData.bgvAfterLunch}</div>
+        <label>Before Supper</label>
+        <input  type="number" required max={20} step=".01"
+        value={data.state} 
+        onChange = { (e) => setidBeforeSupper(e.target.value)}/>
+        <div>{patientData.idBeforeSupper}</div>
+        <div>{ parseInt(patientData.startWith) + parseInt(patientData.insulinThisnight) + parseInt(patientData.idBeforeSupper)}</div>
+
+        {/* fith row */}
+        <label>1hr after Supper</label>
+        <input  type="number" required max={20} step=".01"
+        value={data.state} 
+        onChange = { (e) => setbgvAfterSupper(e.target.value)}/>
+        <div>{patientData.bgvAfterSupper}</div>
+        <label>Evening </label>
+        <input  type="number" required max={20} step=".01"
+        value={data.state} 
+        onChange = { (e) => setidEvening(e.target.value)}/>
+        <div>{patientData.idEvening}</div>
+        <div>{ parseInt(patientData.startWith) + parseInt(patientData.insulinThitonight) + parseInt(patientData.idEvening)}</div>
+        </Styledlargercontainer>
+        
+        <styledcomments>
         <label className="Comments">
             Comments
             <textarea rows ="5" value={data.state}
             onChange = { (e) => setComments(e.target.value)}/>
+            {patientData.comments}
         </label>
         <label>
         <input type="submit" value="Submit Scores"/>
         </label>
+        </styledcomments>
 </Form >
 </div>
-{
-patientData && 
-<div>
-<p>{patientData.dateofscores}</p>
-<p>{patientData.patientNumber}</p>
-<p>{patientData.bgvBeforeBreakfast}</p>
-<p>{patientData.bgvAfterBreakfast}</p>
-<p>{patientData.bgvAfterLunch}</p>
-<p>{patientData.bgvAfterSupper}</p>
-<p>{patientData.idBeforeBreakfast}</p>
-<p>{patientData.idBeforeLunch}</p>
-<p>{patientData.idBeforeSupper}</p>
-<p>{patientData.idEvening}</p>
-<p>{patientData.comments}</p>
-</div>
+</Styleddiv>
 }
-//this will add 2 values together
-<p>{ parseInt( patientData.insulinThatevening) + parseInt(patientData.idBeforeBreakfast)}</p>
-<p>{ parseInt( patientData.insulinThatevening) + parseInt(patientData.idBeforeBreakfast)} </p>
 </>
     )
 }
@@ -167,28 +199,51 @@ export default PatientScore
 const Form = styled.form`
 display: flex;
 flex-direction: column;
-max-width: 500px;
+max-width: 800px;
 margin: auto;
 label{
     display: flex;
     flex-direction: column;
-    font-size: 32px;
+    font-size: 20px;
     margin-top: 8px;
 }
 `
 const Table = styled.div`
-/* border: 1pt red solid;
-display: inline-grid;
-grid-template-areas: 
-    "header header header"
-    "main main main"
-    "footer footer footer"; */
-display: inline-grid;
-grid-template-columns: 200px 200px 200px;
-grid-template-rows: auto;
-grid-row-gap: 10px;
-justify-items: stretch;
+    display: grid;
+    flex-direction: column;
+    
+`
+const TableColumn = styled.div`
+    display: flex;
+    div{
+        height: 20px;
+        margin: 1px;
+    }
+    h3{
+        height: 30px;
+        width: 80px;
+    }
+`
+
+const Styleddiv = styled.div`
+background-image: url('../Img/doctor.png');
+background-repeat: no-repeat;
+background-position: center; 
+background-size: cover;
+min-height: 100%;
+min-width: 1024px;
+width: 100%;
+height: auto;
+position: fixed;
+left: 0;
+`
+const Styledlargercontainer = styled.div`
+display: grid;
+grid-template-columns: repeat(7,1fr);
+justify-items: center;
 align-items: center;
-align-content: space-evenly;
-padding: 0px 10px 10px 100px;
+`
+
+const Bolddiv = styled.div`
+font-weight: 700;
 `

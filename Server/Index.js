@@ -23,7 +23,7 @@ express()
   .use(express.urlencoded({ extended: false }))
   .use("/", express.static(__dirname + "/"))
 
-  // REST endpoints?
+  // REST endpoints
   .post("/api/patientDetails", patientDetail )
   .post("/create-user", createUser)
   .get("/api/confirm-user", confirmUser)

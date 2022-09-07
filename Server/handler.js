@@ -81,6 +81,7 @@ try{
 }
 };
 
+// gets the patients data 
 const getpatientdetails = async(req, res) => {
     console.log(req)
     try{

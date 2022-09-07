@@ -23,22 +23,22 @@ if(isAuthenticated){
 }
 },[isAuthenticated]);
 
-
-    const isLoggedIn = this.state.isLoggedIn;
-
     return (
     <>
     <StyledDiv>
     <router>
         <div>
-    <H1>Welcome to your gestional diabetes diary.</H1>
+    <H1>Welcome to your Gestational Diabetes Diary.</H1>
         </div>
+        {!isAuthenticated ?
         <Div>
-        {isLoggedIn
-        ? <LogoutButton onClick={this.handleLogoutClick} />
-        : <LoginButton onClick={this.handleLoginClick} />
-        }
+        <LoginButton />
         </Div>
+        :
+        <Div>
+        <LogoutButton />
+        </Div> 
+        }
     </router>
     </StyledDiv>
     </>
@@ -52,9 +52,10 @@ export default SignIn;
 const H1 = styled.div`
 display: flex;
 justify-content: center;
-color: #f5cb42;
+color: #0384fc;
 font-size: 83px;
 height: 100px;
+background-color: white;
 `
 const StyledDiv = styled.div`
 background-image: url('../Img/sign_in_nurse.png');
@@ -73,4 +74,5 @@ const Div = styled.div`
 display: flex;
 justify-content: space-around;
 align-items: center;
+
 `
